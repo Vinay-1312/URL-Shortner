@@ -1,0 +1,21 @@
+# Dependencies
+node_modules/
+cdk/dist/
+
+# Go build artifacts
+services/*/bin/
+*.exe
+
+# Environment
+.env
+.env.*
+
+# IDE
+.vscode/
+.claude/
+
+# CDK
+cdk/cdk.out/
+
+# Diagram source
+*.drawio

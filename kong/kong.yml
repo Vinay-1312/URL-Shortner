@@ -1,0 +1,55 @@
+_format_version: "3.0"
+_transform: true
+
+services:
+  - name: creation-service
+    url: http://creation-service:8080
+    routes:
+      - name: shorten-route
+        paths:
+          - /api/shorten
+        methods:
+          - POST
+        strip_path: false
+      - name: creation-health
+        paths:
+          - /api/health/creation
+        methods:
+          - GET
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 60
+          policy: local
+
+  - name: redirect-service
+    url: http://redirect-service:8081
+    routes:
+      - name: redirect-route
+        paths:
+          - /r/
+        methods:
+          - GET
+        strip_path: true
+      - name: redirect-health
+        paths:
+          - /api/health/redirect
+        methods:
+          - GET
+        strip_path: false
+    plugins:
+      - name: rate-limiting
+        config:
+          minute: 300
+          policy: local
+
+  - name: analytics-service
+    url: http://analytics-service:8082
+    routes:
+      - name: analytics-health
+        paths:
+          - /api/health/analytics
+        methods:
+          - GET
+        strip_path: false
